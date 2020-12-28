@@ -19,3 +19,4 @@ class Settings:
         self.bulled_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)  # RGB CODE
+        self.bullet_allowed = 10

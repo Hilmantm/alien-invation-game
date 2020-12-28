@@ -1,7 +1,8 @@
 import pygame
 from pygame.sprite import Sprite
 
-class Bullet:
+
+class Bullet(Sprite):
     """
     Class to manage bullet fired from the ship object
     """
@@ -21,7 +22,6 @@ class Bullet:
 
         # Store the bullet position in a decimal value
         self.y = float(self.rect.y)
-
 
     def update(self):
         """
