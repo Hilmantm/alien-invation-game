@@ -38,3 +38,11 @@ class Ship:
         Draw new ship at its current location
         """
         self.screen.blit(self.image, self.rect)
+
+    def center_ship(self):
+        """
+        Center the new ship in middle bottom of the screen
+        :return:
+        """
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
