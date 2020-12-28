@@ -10,7 +10,15 @@ class AlienInvation:
         pygame.init()
         self.settings = Settings()
 
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+        # this setting use display width and height in settings class
+        # uncomment if you want to use this
+        # self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.settings.screen_width = self.screen.get_rect().width
+        self.settings.screen_height = self.screen.get_rect().height
+
+
         pygame.display.set_caption("Alien Invation")
 
         self.ship = Ship(self)
@@ -18,14 +26,49 @@ class AlienInvation:
     def run_game(self):
         while True:
             # watch event from keyboard and mouse
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
+            self._check_events()
+            self.ship.update()
+            self._update_screen()
 
-            self.screen.fill(self.settings.bg_color)
-            self.ship.blitme()
+    def _check_events(self):
+        # watch event from keyboard and mouse
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                self._check_keydown_events(event)
+            elif event.type == pygame.KEYUP:
+                self._check_keyup_events(event)
 
-            pygame.display.flip()
+    def _check_keydown_events(self, event):
+        """
+        Respond to keypress.
+        :param event:
+        :return:
+        """
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = True
+        elif event.key == pygame.K_q:
+            sys.exit()
+
+    def _check_keyup_events(self, event):
+        """
+        Respond to key release.
+        :param event:
+        :return:
+        """
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = False
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = False
+
+    def _update_screen(self):
+        self.screen.fill(self.settings.bg_color)
+        self.ship.blitme()
+
+        pygame.display.flip()
 
 
 if __name__ == '__main__':
