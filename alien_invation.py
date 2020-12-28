@@ -34,6 +34,7 @@ class AlienInvation:
             self._check_events()
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
 
     def _check_events(self):
@@ -84,15 +85,14 @@ class AlienInvation:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
-    def _update_screen(self):
-        self.screen.fill(self.settings.bg_color)
-        self.ship.blitme()
-        for bullet in self.bullets.sprites():
-            bullet.draw_bullet()
-
-        self.aliens.draw(self.screen)
-
-        pygame.display.flip()
+    def _update_aliens(self):
+        """
+        Check if the fleet is in the edge of the screen and then
+        update the position of all aliens in the fleet
+        :return:
+        """
+        self._check_fleet_edges()
+        self.aliens.update()
 
     def _create_fleet(self):
         alien = Alien(self)
@@ -115,6 +115,31 @@ class AlienInvation:
         for row_number in range(number_rows):
             for alien_number in range(number_alien_x):
                 self._create_alien(alien_number, row_number)
+
+    def _check_fleet_edges(self):
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """
+        Drop entire fleet and change the fleet direction
+        :return:
+        """
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+
+    def _update_screen(self):
+        self.screen.fill(self.settings.bg_color)
+        self.ship.blitme()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+
+        self.aliens.draw(self.screen)
+
+        pygame.display.flip()
 
     def _create_alien(self, alien_number, row_number):
         """

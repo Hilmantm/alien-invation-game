@@ -28,7 +28,7 @@ class Alien(Sprite):
         Move the alien to right or to left
         :return:
         """
-        self.x = (self.settings.alien_speed + self.settings.fleet_direction)
+        self.x += (self.settings.alien_speed * self.settings.fleet_direction)
         self.rect.x = self.x
 
     def check_edges(self):
