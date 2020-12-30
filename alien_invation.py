@@ -99,6 +99,8 @@ class AlienInvation:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+        self._check_bullet_alien_collisions()
+
     def _update_aliens(self):
         """
         Check if the fleet is in the edge of the screen and then
@@ -216,6 +218,7 @@ class AlienInvation:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
 
         if button_clicked and not self.stats.game_active:
+            self.settings.initialize_dynamic_settings()
             pygame.mouse.set_visible(False)
             self.stats.reset_stats()
             self.stats.game_active = True
@@ -227,6 +230,14 @@ class AlienInvation:
         # reset position
         self._create_fleet()
         self.ship.center_ship()
+
+    def _check_bullet_alien_collisions(self):
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        if not self.aliens:
+            self.bullets.empty()
+            self._create_fleet()
+            self.settings.increase_speed()
 
 
 if __name__ == '__main__':
