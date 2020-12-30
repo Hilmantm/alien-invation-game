@@ -31,7 +31,7 @@ class Button:
         """
         self.message_image = self.font.render(message, True, self.text_color, self.button_color)
         self.message_image_rect = self.message_image.get_rect()
-        self.message_image_rect.center = self.rect_center
+        self.message_image_rect.center = self.rect.center
 
     def draw_button(self):
         self.screen.fill(self.button_color, self.rect)
