@@ -16,6 +16,8 @@ class AlienInvation:
         pygame.init()
         self.settings = Settings()
 
+        self.background = pygame.image.load("./images/background.jpg")
+
         # this setting use display width and height in settings class
         # uncomment if you want to use this
         # self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
@@ -37,6 +39,8 @@ class AlienInvation:
 
         self.play_button = Button(self, "play")
 
+        pygame.mixer.music.load("./sound/Throwback Galaxy - Super Mario Galaxy 2.mp3")
+        pygame.mixer.music.play(-1)
 
     def run_game(self):
         while True:
@@ -81,7 +85,13 @@ class AlienInvation:
     def _fire_bullet(self):
         if len(self.bullets) < self.settings.bullet_allowed:
             new_bullet = Bullet(self)
+            self.fire_sound()
             self.bullets.add(new_bullet)
+
+    def fire_sound(self):
+        fire_sound = pygame.mixer.Sound("./sound/fire_pzmCtSSg.wav")
+        fire_sound.set_volume(0.3)
+        fire_sound.play()
 
     def _check_keyup_events(self, event):
         """
@@ -126,7 +136,7 @@ class AlienInvation:
         number_alien_x = available_space_x // (2 * alien_width)
 
         ship_height = self.ship.rect.height
-        available_space_y = (self.settings.screen_height - (3 * alien_height) - ship_height)
+        available_space_y = (self.settings.screen_height - (7 * alien_height) - ship_height)
         number_rows = available_space_y // (2 * alien_height)
 
         # log the result
@@ -157,7 +167,8 @@ class AlienInvation:
         self.settings.fleet_direction *= -1
 
     def _update_screen(self):
-        self.screen.fill(self.settings.bg_color)
+        # self.screen.fill(self.settings.bg_color)
+        self.screen.blit(self.background, (0, 0))
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
@@ -182,7 +193,8 @@ class AlienInvation:
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
-        alien.rect.x = alien.x
+        alien.rect.x = alien.x  # kali dengan negatif 1 agar alien digambar dari kanan
+        print(alien.rect.x)
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
 

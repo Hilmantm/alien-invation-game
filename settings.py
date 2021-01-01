@@ -19,7 +19,8 @@ class Settings:
         self.bullet_speed = 1.0
         self.bulled_width = 3
         self.bullet_height = 15
-        self.bullet_color = (60, 60, 60)  # RGB CODE
+        self.bullet_color = "white"  # RGB CODE
+        # konstanta untuk mengubah jumlah peluru yang dapat dikeluarkan dalam satu waktu
         self.bullet_allowed = 10
 
         # alien setting
@@ -34,10 +35,10 @@ class Settings:
 
     def initialize_dynamic_settings(self):
         self.ship_speed = 1.5
-        self.bullet_speed = 3.0
-        self.alien_speed = 1.0
+        self.bullet_speed = 10  # Ubah value dari konstanta ini untuk mengubah kecepatan peluru
+        self.alien_speed = 1
 
-        self.fleet_direction = 1
+        self.fleet_direction = -1
 
         self.alien_points = 50
 

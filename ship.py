@@ -11,7 +11,8 @@ class Ship(Sprite):
         self.screen_rect = ai_game.screen.get_rect()
 
         # load ship image
-        self.image = pygame.image.load('./images/ship.bmp')
+        self.image = pygame.image.load('./images/ufo.png')
+        self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect()
 
         # start each new ship in middle bottom of the screen
